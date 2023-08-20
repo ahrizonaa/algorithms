@@ -5,7 +5,7 @@ class Solution:
         if nn <= 6:
             return 1
         nodes = [None] * (nn + 1)
-        distances = [-1] * (nn + 1)
+        steps = [-1] * (nn + 1)
         node = 1
         for row in range(n - 1, -1, -1):
             start = stop = step = 0
@@ -16,22 +16,21 @@ class Solution:
             for col in range(start, stop, step):
                 nodes[node] = [row, col]
                 node += 1
-        
+
         q = deque([1])
-        distances[1] = 0
-        
+        steps[1] = 0
+
         while len(q):
             node = q.popleft()
-            
             for i in range(node + 1, min(node + 6, nn) + 1):
-                row,col = nodes[i]
+                row, col = nodes[i]
                 dest = None
                 if board[row][col] != -1:
                     dest = board[row][col]
                 else:
                     dest = i
-                if distances[dest] == -1:
-                    distances[dest] = distances[node] + 1
+                if steps[dest] == -1:
+                    steps[dest] = steps[node] + 1
                     q.append(dest)
-        
-        return distances[nn]
+
+        return steps[nn]
